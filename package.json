@@ -1,0 +1,17 @@
+{
+  "name": "fit-discord-bot",
+  "version": "1.0.0",
+  "description": "FIT Helper bot",
+  "main": "src/bot.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "keywords": [],
+  "author": "Ismail Zilic",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.0"
+  }
+}
