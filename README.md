@@ -1,2 +1,3 @@
-## Discord Helper Bot for FIT Community
+## fit-discord-bot
+
 Written with discord.js
