@@ -10,7 +10,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("set-youtube-uploads")
     .setDescription(
-      "Sets a channel where all youtube uploads will be sent. (This will create a webhook)"
+      "Sets a channel where all YouTube uploads will be sent. (This will create a webhook)"
     )
     .setDefaultMemberPermissions(
       PermissionFlagsBits.ManageWebhooks | PermissionFlagsBits.ManageChannels

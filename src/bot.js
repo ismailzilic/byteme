@@ -1,9 +1,8 @@
 require("dotenv").config();
 const { token } = process.env;
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const path = require("node:path");
 const fs = require("node:fs");
-
-const primaryColor = [0, 173, 239]; //RGB values
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
@@ -11,16 +10,16 @@ const client = new Client({
 
 client.commands = new Collection();
 client.commandArray = [];
-client.color = primaryColor;
+client.config = JSON.parse(fs.readFileSync(path.join("src", "config.json")));
 
-const functionFolders = fs.readdirSync("./src/functions");
+const functionFolders = fs.readdirSync(path.join("src", "functions"));
 for (const folder of functionFolders) {
   const functionFiles = fs
-    .readdirSync(`./src/functions/${folder}`)
+    .readdirSync(path.join("src", "functions", `${folder}`))
     .filter((file) => file.endsWith(".js"));
 
   for (const file of functionFiles)
-    require(`./functions/${folder}/${file}`)(client);
+    require(path.join(__dirname, "functions", `${folder}`, `${file}`))(client);
 }
 
 client.login(token);

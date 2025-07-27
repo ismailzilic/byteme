@@ -7,7 +7,7 @@ module.exports = {
     .setDescription("Responds with informations about you."),
   async execute(interaction, client) {
     const embed = new EmbedBuilder()
-      .setColor(client.color)
+      .setColor(client.config.colors.primary)
       .setTitle("User Info")
       .setThumbnail(interaction.user.displayAvatarURL())
       .addFields(

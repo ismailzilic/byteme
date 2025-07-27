@@ -1,16 +1,24 @@
+const path = require("node:path");
 const fs = require("node:fs");
 
 module.exports = (client) => {
   client.handleEvents = async () => {
-    const eventFolders = fs.readdirSync(`./src/events`);
+    const eventFolders = fs.readdirSync(path.join("src", "events"));
 
     for (const folder of eventFolders) {
       const eventFiles = fs
-        .readdirSync(`./src/events/${folder}`)
+        .readdirSync(path.join("src", "events", `${folder}`))
         .filter((file) => file.endsWith(".js"));
 
       for (const file of eventFiles) {
-        const event = require(`../../events/${folder}/${file}`);
+        const event = require(path.join(
+          __dirname,
+          "..",
+          "..",
+          "events",
+          `${folder}`,
+          `${file}`
+        ));
 
         switch (folder) {
           case "client":
