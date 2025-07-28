@@ -8,7 +8,7 @@ const { createWebhook } = require("../../webhooks/create-webhook.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("set-youtube-uploads")
+    .setName("youtube-updates")
     .setDescription(
       "Sets a channel where all YouTube uploads will be sent. (This will create a webhook)"
     )
@@ -29,7 +29,8 @@ module.exports = {
     const webhookName = "YouTube Uploads";
     const webhookDesc = "Webhook used by YouTube to send notifications.";
 
-    (async () => await createWebhook(channel, webhookName, webhookDesc))();
+    (async () =>
+      await createWebhook(client, channel, webhookName, webhookDesc))();
 
     await interaction.reply({
       content: `Channel <#${channel.id}> set as YouTube uploads channel.`,
