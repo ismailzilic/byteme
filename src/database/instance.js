@@ -1,9 +1,9 @@
 const { Sequelize } = require("sequelize");
 
-module.exports = {
-  sequelize: new Sequelize({
-    dialect: "sqlite",
-    logging: false,
-    storage: "./youtube.db",
-  }),
-};
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  logging: false,
+  storage: "./src/database.sqlite",
+});
+
+module.exports = sequelize;

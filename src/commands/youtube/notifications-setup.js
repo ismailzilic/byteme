@@ -1,0 +1,108 @@
+const {
+  ChannelType,
+  SlashCommandBuilder,
+  InteractionContextType,
+  PermissionFlagsBits,
+  MessageFlags,
+  EmbedBuilder,
+} = require("discord.js");
+const {
+  createNotificationConfig,
+  alreadyExists,
+} = require("../../database/operations/op-NotificationConfig");
+const Parser = require("rss-parser");
+
+const parser = new Parser();
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("notifications-setup")
+    .setDescription("Sets up notifications for a YouTube channel.")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
+    .setContexts(InteractionContextType.Guild)
+    .addChannelOption((option) =>
+      option
+        .setName("channel")
+        .setDescription("Server channel where the notifications will be sent.")
+        .setRequired(true)
+        .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("yt-channel-id")
+        .setDescription(
+          "ID of a YouTube channel whose notification you want to be sent."
+        )
+        .setRequired(true)
+    ),
+  async execute(interaction, client) {
+    try {
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
+      const guildChannelId = interaction.options.getChannel("channel");
+      const ytChannelId = interaction.options.getString("yt-channel-id");
+
+      if (alreadyExists) {
+        return interaction.followUp(
+          "The YouTube channel specified already subscribed to specified server channel."
+        );
+      }
+
+      const YT_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${ytChannelId}`;
+
+      const feed = await parser.parseURL(YT_URL).catch((error) => {
+        interaction.followUp(
+          "There was an error while fetching the YouTube channel. Double-check the ID."
+        );
+      });
+
+      if (!feed) return;
+
+      const channelName = feed.title;
+      const notificationCfg = createNotificationConfig(
+        interaction.guildId,
+        guildChannelId,
+        ytChannelId,
+        channelName,
+        new Date(),
+        null
+      );
+
+      if (feed.items.length) {
+        const latestVideo = feed.items[0];
+
+        const lastCheckedVideo = {
+          id: latestVideo.id,
+          pubDate: latestVideo.pubDate,
+        };
+
+        await notificationCfg
+          .update(
+            { lastCheckedVideo: lastCheckedVideo },
+            {
+              where: {
+                ytChannelId: ytChannelId,
+                guildChannelId: guildChannelId,
+              },
+            }
+          )
+          .then(() => {
+            const embed = new EmbedBuilder()
+              .setColor(client.config.colors.primary)
+              .setTitle("YouTube channel configured successfully.")
+              .setDescription(
+                `<#${guildChannelId}> will get notified whenever there's a new upload from ${channelName}`
+              )
+              .setTimestamp();
+
+            interaction.followUp({ embeds: [embed] });
+          })
+          .catch((error) => {
+            interaction.followUp("Database error.");
+          });
+      }
+    } catch (error) {
+      console.log(`Error in ${__filename}: ${error}`);
+    }
+  },
+};

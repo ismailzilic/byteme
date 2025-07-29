@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageFlags } = require("discord.js");
 const wait = require("node:timers/promises").setTimeout;
 
 module.exports = {
@@ -16,8 +17,9 @@ module.exports = {
         .setDescription("Sets the maximum value. Default is 100")
     ),
   async execute(interaction, client) {
-    await interaction.reply({
+    await interaction.deferReply({
       content: `Calculating...`,
+      flags: MessageFlags.Ephemeral,
     });
     await wait(500);
 
@@ -39,11 +41,11 @@ module.exports = {
     const number = Math.floor(Math.random() * (max - min + 1)) + min;
 
     if (invalidFlag)
-      await interaction.editReply({
+      await interaction.followUp({
         content: `*Invalid inputs, calculated defaults.*\nGenerated number: **${number}**`,
       });
     else
-      await interaction.editReply({
+      await interaction.followUp({
         content: `Generated number: **${number}**`,
       });
   },

@@ -1,6 +1,8 @@
 const path = require("node:path");
 const fs = require("node:fs");
 
+const sequelize = require("../../database/instance.js");
+
 module.exports = (client) => {
   client.handleEvents = async () => {
     const eventFolders = fs.readdirSync(path.join("src", "events"));
@@ -30,6 +32,9 @@ module.exports = (client) => {
               client.on(event.name, (...args) =>
                 event.execute(...args, client)
               );
+            break;
+          case "database":
+            event.execute(sequelize);
             break;
           default:
             console.log("Unhandled event.");

@@ -10,10 +10,8 @@ const client = new Client({
 });
 
 client.config = JSON.parse(fs.readFileSync(path.join("src", "config.json")));
-client.webhooks = new Collection();
 client.commands = new Collection();
 client.commandArray = [];
-client.databaseModels = [];
 
 const functionFolders = fs.readdirSync(path.join("src", "functions"));
 for (const folder of functionFolders) {
@@ -23,11 +21,6 @@ for (const folder of functionFolders) {
 
   for (const file of functionFiles)
     require(path.join(__dirname, "functions", `${folder}`, `${file}`))(client);
-}
-
-const dbModels = fs.readdirSync(path.join("src", "database", "models"));
-for (const modelFile of dbModels) {
-  require(path.join(__dirname, "database", "models", `${modelFile}`))(client);
 }
 
 client.login(token);
