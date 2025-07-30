@@ -17,7 +17,7 @@ module.exports = {
     await interaction.deferReply({ content: "Fetching list..." });
 
     const allNotificationConfigs =
-      await NotificationConfig.findAllNotificationConfigs();
+      await NotificationConfig.selectAllNotificationConfigs();
 
     const embed = new EmbedBuilder()
       .setColor(client.config.colors.primary)
@@ -33,7 +33,8 @@ module.exports = {
           value: "",
           inline: true,
         }
-      );
+      )
+      .setTimestamp();
 
     if (allNotificationConfigs.length <= 0)
       return await interaction.followUp({ embeds: [embed] });
@@ -47,7 +48,7 @@ module.exports = {
         },
         {
           name: "",
-          value: `**ID:** ${data.ytChannelId}\n**Name:** ${data.ytChannelTitle}`,
+          value: `**ID:** \`\`${data.ytChannelId}\`\`\n**Name:** \`\`${data.ytChannelTitle}\`\``,
           inline: true,
         },
         {

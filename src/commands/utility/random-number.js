@@ -8,12 +8,12 @@ module.exports = {
     .addIntegerOption((minNumber) =>
       minNumber
         .setName("min")
-        .setDescription("Sets the minimum value. Default is 0")
+        .setDescription("(Optional) Sets the minimum value. Default is 0")
     )
     .addIntegerOption((maxNumber) =>
       maxNumber
         .setName("max")
-        .setDescription("Sets the maximum value. Default is 100")
+        .setDescription("(Optional) Sets the maximum value. Default is 100")
     ),
   async execute(interaction, client) {
     await interaction.deferReply({

@@ -38,7 +38,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     try {
-      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+      await interaction.deferReply();
 
       const guildChannelId = interaction.options.getChannel("channel");
       const ytChannelId = interaction.options.getString("yt-channel-id");
@@ -91,7 +91,7 @@ module.exports = {
               .setColor(client.config.colors.primary)
               .setTitle("YouTube channel configured successfully.")
               .setDescription(
-                `<#${guildChannelId}> will get notified whenever there's a new upload from ${channelName}`
+                `${guildChannelId} will get notified whenever there's a new upload from **${channelName}**`
               )
               .setTimestamp();
 
