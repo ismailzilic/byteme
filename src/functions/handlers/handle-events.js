@@ -33,7 +33,7 @@ module.exports = (client) => {
                 event.execute(...args, client)
               );
             break;
-          case "database":
+          case "sqlite":
             event.execute(sequelize);
             break;
           default:

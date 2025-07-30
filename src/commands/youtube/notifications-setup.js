@@ -11,6 +11,7 @@ const {
   alreadyExists,
 } = require("../../database/operations/op-NotificationConfig");
 const Parser = require("rss-parser");
+const NotificationConfig = require("../../database/models/NotificationConfig");
 
 const parser = new Parser();
 
@@ -42,9 +43,9 @@ module.exports = {
       const guildChannelId = interaction.options.getChannel("channel");
       const ytChannelId = interaction.options.getString("yt-channel-id");
 
-      if (alreadyExists) {
+      if (await alreadyExists(guildChannelId, ytChannelId)) {
         return interaction.followUp(
-          "The YouTube channel specified already subscribed to specified server channel."
+          "The YouTube channel is already subscribed to the specified server channel."
         );
       }
 
@@ -59,7 +60,7 @@ module.exports = {
       if (!feed) return;
 
       const channelName = feed.title;
-      const notificationCfg = createNotificationConfig(
+      await createNotificationConfig(
         interaction.guildId,
         guildChannelId,
         ytChannelId,
@@ -76,16 +77,15 @@ module.exports = {
           pubDate: latestVideo.pubDate,
         };
 
-        await notificationCfg
-          .update(
-            { lastCheckedVideo: lastCheckedVideo },
-            {
-              where: {
-                ytChannelId: ytChannelId,
-                guildChannelId: guildChannelId,
-              },
-            }
-          )
+        await NotificationConfig.update(
+          { lastCheckedVideo: lastCheckedVideo },
+          {
+            where: {
+              ytChannelId: ytChannelId,
+              guildChannelId: guildChannelId,
+            },
+          }
+        )
           .then(() => {
             const embed = new EmbedBuilder()
               .setColor(client.config.colors.primary)

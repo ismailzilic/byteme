@@ -1,4 +1,4 @@
-const { NotificationConfig } = require("../models/NotificationConfig.js");
+const NotificationConfig = require("../models/NotificationConfig.js");
 
 const createNotificationConfig = async (
   guildId,
@@ -18,6 +18,10 @@ const createNotificationConfig = async (
   });
 };
 
+const findAllNotificationConfigs = async () => {
+  return await NotificationConfig.findAll();
+};
+
 const alreadyExists = async (guildChannelId, ytChannelId) => {
   const data = await NotificationConfig.findOne({
     where: {
@@ -26,7 +30,14 @@ const alreadyExists = async (guildChannelId, ytChannelId) => {
     },
   });
 
-  return !data ? false : true;
+  console.log(data);
+
+  if (data == null) return false;
+  return true;
 };
 
-module.exports = { createNotificationConfig, alreadyExists };
+module.exports = {
+  createNotificationConfig,
+  findAllNotificationConfigs,
+  alreadyExists,
+};

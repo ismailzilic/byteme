@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageFlags } = require("discord.js");
 const wait = require("node:timers/promises").setTimeout;
 
 module.exports = {
@@ -19,7 +18,6 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({
       content: `Calculating...`,
-      flags: MessageFlags.Ephemeral,
     });
     await wait(500);
 
