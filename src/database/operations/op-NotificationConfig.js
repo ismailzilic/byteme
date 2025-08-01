@@ -18,6 +18,10 @@ const createNotificationConfig = async (
   });
 };
 
+const selectAllNotificationConfigs = async () => {
+  return await NotificationConfig.findAll();
+};
+
 const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
   const data = NotificationConfig.destroy({
     where: {
@@ -30,8 +34,26 @@ const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
   return true;
 };
 
-const selectAllNotificationConfigs = async () => {
-  return await NotificationConfig.findAll();
+const removeAllConfigFromGuild = async (GuildId) => {
+  const data = NotificationConfig.destroy({
+    where: {
+      guildId: GuildId,
+    },
+  });
+
+  if (data == null) return false;
+  return true;
+};
+
+const removeAllConfigFromGuildChannel = async (GuildChannelId) => {
+  const data = NotificationConfig.destroy({
+    where: {
+      guildChannelId: GuildChannelId,
+    },
+  });
+
+  if (data == null) return false;
+  return true;
 };
 
 const alreadyExists = async (GuildChannelId, YtChannelId) => {
@@ -48,7 +70,9 @@ const alreadyExists = async (GuildChannelId, YtChannelId) => {
 
 module.exports = {
   createNotificationConfig,
-  removeNotificationConfig,
   selectAllNotificationConfigs,
+  removeNotificationConfig,
+  removeAllConfigFromGuild,
+  removeAllConfigFromGuildChannel,
   alreadyExists,
 };

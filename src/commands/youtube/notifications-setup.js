@@ -3,7 +3,6 @@ const {
   SlashCommandBuilder,
   InteractionContextType,
   PermissionFlagsBits,
-  MessageFlags,
   EmbedBuilder,
 } = require("discord.js");
 const {
@@ -72,13 +71,8 @@ module.exports = {
       if (feed.items.length) {
         const latestVideo = feed.items[0];
 
-        const lastCheckedVideo = {
-          id: latestVideo.id,
-          pubDate: latestVideo.pubDate,
-        };
-
         await NotificationConfig.update(
-          { lastCheckedVideo: lastCheckedVideo },
+          { lastCheckedVideo: [latestVideo.id, latestVideo.pubDate] },
           {
             where: {
               ytChannelId: ytChannelId,

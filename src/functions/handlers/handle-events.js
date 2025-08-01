@@ -36,6 +36,8 @@ module.exports = (client) => {
           case "sqlite":
             event.execute(sequelize);
             break;
+          case "youtube":
+            break;
           default:
             console.log("Unhandled event.");
             break;
