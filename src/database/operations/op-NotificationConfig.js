@@ -25,12 +25,14 @@ const selectLastCheckedVideo = async (notificationConfig) => {
     },
   });
 
-  if (data.size <= 0) return null;
-  return data;
+  const vidId = data[0].getDataValue("lastCheckedVideoId");
+  const vidPubDate = data[0].getDataValue("lastCheckedVideoPubDate");
+
+  if (!vidId || !vidPubDate) return null;
+  return { vidId, vidPubDate };
 };
 
 const updateLastCheckedVideo = async (notificationConfig, latestVideo) => {
-  console.log(new Date(latestVideo.pubDate));
   await NotificationConfig.update(
     {
       lastCheckedVideoId: latestVideo.id,

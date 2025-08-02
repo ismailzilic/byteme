@@ -18,12 +18,11 @@ const checkFeed = async (client) => {
     const feed = await parser
       .parseURL(YT_URL)
       .catch((error) => console.error(`Error while fetching feed: ${error}`));
+
     if (!feed?.items.length) continue;
 
     const latestVideo = feed.items[0];
-    const lastCheckedVideo = await selectLastCheckedVideo(
-      notificationConfig
-    )[0];
+    const lastCheckedVideo = await selectLastCheckedVideo(notificationConfig);
 
     if (
       !lastCheckedVideo ||
@@ -71,10 +70,10 @@ const checkFeed = async (client) => {
         const embed = new EmbedBuilder()
           .setColor(client.config.colors.youtube)
           .setAuthor({ name: "YouTube", url: "https://www.youtube.com" })
-          .setTitle(feed.title)
-          .setURL(feed.link)
-          .setDescription(latestVideo.title)
+          .setTitle(latestVideo.title)
           .setURL(latestVideo.link)
+          .setDescription(feed.title)
+          .setURL(feed.link)
           .setTimestamp();
 
         targetChannel.send({ embeds: [embed] });
