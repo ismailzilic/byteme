@@ -7,10 +7,10 @@ const {
 } = require("discord.js");
 const {
   createNotificationConfig,
+  updateLastCheckedVideo,
   alreadyExists,
 } = require("../../database/operations/op-NotificationConfig");
 const Parser = require("rss-parser");
-const NotificationConfig = require("../../database/models/NotificationConfig");
 
 const parser = new Parser();
 
@@ -58,34 +58,28 @@ module.exports = {
 
       if (!feed) return;
 
-      const channelName = feed.title;
-      await createNotificationConfig(
-        interaction.guildId,
+      const guildId = interaction.guildId;
+      const ytChannelTitle = feed.title;
+      const newNotificationConfig = {
+        guildId,
         guildChannelId,
         ytChannelId,
-        channelName,
-        new Date(),
-        null
-      );
+        ytChannelTitle,
+      };
+      await createNotificationConfig(newNotificationConfig);
 
       if (feed.items.length) {
         const latestVideo = feed.items[0];
-
-        await NotificationConfig.update(
-          { lastCheckedVideo: [latestVideo.id, latestVideo.pubDate] },
-          {
-            where: {
-              ytChannelId: ytChannelId,
-              guildChannelId: guildChannelId,
-            },
-          }
+        await updateLastCheckedVideo(
+          { ytChannelId, guildChannelId },
+          latestVideo
         )
           .then(() => {
             const embed = new EmbedBuilder()
               .setColor(client.config.colors.primary)
               .setTitle("YouTube channel configured successfully.")
               .setDescription(
-                `${guildChannelId} will get notified whenever there's a new upload from **${channelName}**`
+                `${guildChannelId} will get notified whenever there's a new upload from **${ytChannelTitle}**`
               )
               .setTimestamp();
 

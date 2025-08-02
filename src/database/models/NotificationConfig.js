@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 
 const sequelize = require("../instance.js");
 
-const NotificationConfig = sequelize.define("notificationConfig", {
+const NotificationConfig = sequelize.define("NotificationConfig", {
   guildId: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -10,11 +10,12 @@ const NotificationConfig = sequelize.define("notificationConfig", {
   guildChannelId: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    primaryKey: true,
   },
   ytChannelId: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false,
+    primaryKey: true,
   },
   ytChannelTitle: {
     type: Sequelize.STRING,
@@ -24,18 +25,13 @@ const NotificationConfig = sequelize.define("notificationConfig", {
     type: Sequelize.DATE,
     allowNull: false,
   },
-  lastCheckedVideo: {
-    type: {
-      id: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      pubDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      allowNull: true,
-    },
+  lastCheckedVideoId: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  lastCheckedVideoPubDate: {
+    type: Sequelize.DATE,
+    allowNull: true,
   },
 });
 

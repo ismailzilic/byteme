@@ -1,25 +1,48 @@
 const NotificationConfig = require("../models/NotificationConfig.js");
 
-const createNotificationConfig = async (
-  GuildId,
-  GuildChannelId,
-  YtChannelId,
-  YtChannelTitle,
-  LastCheckedTime,
-  LastCheckedVideo
-) => {
+const createNotificationConfig = async (notificationConfig) => {
   return await NotificationConfig.create({
-    guildId: GuildId,
-    guildChannelId: GuildChannelId,
-    ytChannelId: YtChannelId,
-    ytChannelTitle: YtChannelTitle,
-    lastCheckedTime: LastCheckedTime,
-    lastCheckedVideo: LastCheckedVideo,
+    guildId: notificationConfig.guildId,
+    guildChannelId: notificationConfig.guildChannelId,
+    ytChannelId: notificationConfig.ytChannelId,
+    ytChannelTitle: notificationConfig.ytChannelTitle,
+    lastCheckedTime: new Date(),
+    lastCheckedVideoId: null,
+    lastCheckedVideoPubDate: null,
   });
 };
 
 const selectAllNotificationConfigs = async () => {
   return await NotificationConfig.findAll();
+};
+
+const selectLastCheckedVideo = async (notificationConfig) => {
+  const data = await NotificationConfig.findAll({
+    attributes: ["lastCheckedVideoId", "lastCheckedVideoPubDate"],
+    where: {
+      guildChannelId: notificationConfig.guildChannelId,
+      ytChannelId: notificationConfig.ytChannelId,
+    },
+  });
+
+  if (data.size <= 0) return null;
+  return data;
+};
+
+const updateLastCheckedVideo = async (notificationConfig, latestVideo) => {
+  console.log(new Date(latestVideo.pubDate));
+  await NotificationConfig.update(
+    {
+      lastCheckedVideoId: latestVideo.id,
+      lastCheckedVideoPubDate: new Date(latestVideo.pubDate),
+    },
+    {
+      where: {
+        ytChannelId: notificationConfig.ytChannelId,
+        guildChannelId: notificationConfig.guildChannelId,
+      },
+    }
+  );
 };
 
 const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
@@ -71,6 +94,8 @@ const alreadyExists = async (GuildChannelId, YtChannelId) => {
 module.exports = {
   createNotificationConfig,
   selectAllNotificationConfigs,
+  selectLastCheckedVideo,
+  updateLastCheckedVideo,
   removeNotificationConfig,
   removeAllConfigFromGuild,
   removeAllConfigFromGuildChannel,
