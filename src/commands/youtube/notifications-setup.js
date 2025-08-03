@@ -36,61 +36,54 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction, client) {
-    try {
-      await interaction.deferReply();
+    await interaction.deferReply();
 
-      const guildChannelId = interaction.options.getChannel("channel");
-      const ytChannelId = interaction.options.getString("yt-channel-id");
+    const guildChannelId = interaction.options.getChannel("channel");
+    const ytChannelId = interaction.options.getString("yt-channel-id");
 
-      if (await alreadyExists(guildChannelId, ytChannelId)) {
-        return interaction.followUp(
-          "The YouTube channel is already subscribed to the specified server channel."
-        );
-      }
+    if (await alreadyExists(guildChannelId, ytChannelId)) {
+      return interaction.followUp(
+        "The YouTube channel is already subscribed to the specified server channel."
+      );
+    }
 
-      const YT_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${ytChannelId}`;
+    const YT_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${ytChannelId}`;
 
-      const feed = await parser.parseURL(YT_URL).catch((error) => {
-        interaction.followUp(
-          "There was an error while fetching the YouTube channel. Double-check the ID."
-        );
-      });
+    const feed = await parser.parseURL(YT_URL).catch((error) => {
+      interaction.followUp(
+        "There was an error while fetching the YouTube channel. Double-check the ID."
+      );
+    });
 
-      if (!feed) return;
+    if (!feed) return;
 
-      const guildId = interaction.guildId;
-      const ytChannelTitle = feed.title;
-      const newNotificationConfig = {
-        guildId,
-        guildChannelId,
-        ytChannelId,
-        ytChannelTitle,
-      };
-      await createNotificationConfig(newNotificationConfig);
+    const guildId = interaction.guildId;
+    const ytChannelTitle = feed.title;
+    const newNotificationConfig = {
+      guildId,
+      guildChannelId,
+      ytChannelId,
+      ytChannelTitle,
+    };
+    await createNotificationConfig(newNotificationConfig);
 
-      if (feed.items.length) {
-        const latestVideo = feed.items[0];
-        await updateLastCheckedVideo(
-          { ytChannelId, guildChannelId },
-          latestVideo
-        )
-          .then(() => {
-            const embed = new EmbedBuilder()
-              .setColor(client.config.colors.primary)
-              .setTitle("YouTube channel configured successfully.")
-              .setDescription(
-                `${guildChannelId} will get notified whenever there's a new upload from **${ytChannelTitle}**`
-              )
-              .setTimestamp();
+    if (feed.items.length) {
+      const latestVideo = feed.items[0];
+      await updateLastCheckedVideo({ ytChannelId, guildChannelId }, latestVideo)
+        .then(() => {
+          const embed = new EmbedBuilder()
+            .setColor(client.config.colors.primary)
+            .setTitle("YouTube channel configured successfully.")
+            .setDescription(
+              `${guildChannelId} will get notified whenever there's a new upload by **${ytChannelTitle}**`
+            )
+            .setTimestamp();
 
-            interaction.followUp({ embeds: [embed] });
-          })
-          .catch((error) => {
-            interaction.followUp("Database error.");
-          });
-      }
-    } catch (error) {
-      console.log(`Error in ${__filename}: ${error}`);
+          interaction.followUp({ embeds: [embed] });
+        })
+        .catch((error) => {
+          interaction.followUp("Database error.");
+        });
     }
   },
 };

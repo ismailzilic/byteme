@@ -25,10 +25,9 @@ const checkFeed = async (client) => {
     const lastCheckedVideo = await selectLastCheckedVideo(notificationConfig);
 
     if (
-      !lastCheckedVideo ||
-      (latestVideo.id !== lastCheckedVideo.lastCheckedVideoId &&
-        new Date(latestVideo.pubDate) >
-          new Date(lastCheckedVideo.lastCheckedVideoPubDate))
+      lastCheckedVideo == null ||
+      (latestVideo.id !== lastCheckedVideo.vidId &&
+        new Date(latestVideo.pubDate) > new Date(lastCheckedVideo.vidPubDate))
     ) {
       let targetGuild =
         client.guilds.cache.get(notificationConfig.guildId) ||

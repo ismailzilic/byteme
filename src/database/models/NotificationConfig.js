@@ -10,12 +10,10 @@ const NotificationConfig = sequelize.define("NotificationConfig", {
   guildChannelId: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
   ytChannelId: {
     type: Sequelize.STRING,
     allowNull: false,
-    primaryKey: true,
   },
   ytChannelTitle: {
     type: Sequelize.STRING,

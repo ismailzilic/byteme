@@ -16,6 +16,14 @@ const selectAllNotificationConfigs = async () => {
   return await NotificationConfig.findAll();
 };
 
+const selectNotificationConfigsByGuildChannel = async (guildChannel) => {
+  return await NotificationConfig.findAll({
+    where: {
+      guildChannelId: guildChannel,
+    },
+  });
+};
+
 const selectLastCheckedVideo = async (notificationConfig) => {
   const data = await NotificationConfig.findAll({
     attributes: ["lastCheckedVideoId", "lastCheckedVideoPubDate"],
@@ -24,6 +32,8 @@ const selectLastCheckedVideo = async (notificationConfig) => {
       ytChannelId: notificationConfig.ytChannelId,
     },
   });
+
+  if (!data) return null;
 
   const vidId = data[0].getDataValue("lastCheckedVideoId");
   const vidPubDate = data[0].getDataValue("lastCheckedVideoPubDate");
@@ -96,6 +106,7 @@ const alreadyExists = async (GuildChannelId, YtChannelId) => {
 module.exports = {
   createNotificationConfig,
   selectAllNotificationConfigs,
+  selectNotificationConfigsByGuildChannel,
   selectLastCheckedVideo,
   updateLastCheckedVideo,
   removeNotificationConfig,

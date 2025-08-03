@@ -3,7 +3,7 @@ const {
   PermissionFlagsBits,
   InteractionContextType,
   EmbedBuilder,
-  MessageFlags,
+  ChannelType,
 } = require("discord.js");
 const NotificationConfig = require("../../database/operations/op-NotificationConfig.js");
 
@@ -12,12 +12,31 @@ module.exports = {
     .setName("notifications-list")
     .setDescription("Fetches all YouTube channels set up in this server.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-    .setContexts(InteractionContextType.Guild),
+    .setContexts(InteractionContextType.Guild)
+    .addChannelOption((option) =>
+      option
+        .setName("channel")
+        .setDescription(
+          "(Optional) Channel you want to get all set YouTube notifications."
+        )
+        .setRequired(false)
+        .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
+    ),
   async execute(interaction, client) {
     await interaction.deferReply({ content: "Fetching list..." });
 
-    const allNotificationConfigs =
-      await NotificationConfig.selectAllNotificationConfigs();
+    const guildChannel = interaction.options.getChannel("channel");
+
+    let allNotificationConfigs;
+
+    if (guildChannel)
+      allNotificationConfigs =
+        await NotificationConfig.selectNotificationConfigsByGuildChannel(
+          guildChannel
+        );
+    else
+      allNotificationConfigs =
+        await NotificationConfig.selectAllNotificationConfigs();
 
     const embed = new EmbedBuilder()
       .setColor(client.config.colors.primary)
