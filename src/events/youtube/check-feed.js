@@ -10,9 +10,11 @@ const { EmbedBuilder } = require("discord.js");
 
 const parser = new Parser();
 
+const GuildNotExisting = 10004;
+const ChannelNotExisting = 10003;
+
 const checkFeed = async (client) => {
   const data = await selectAllNotificationConfigs();
-  console.log("Checking YouTube feed...");
 
   for (const notificationConfig of data) {
     const YT_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${notificationConfig.ytChannelId}`;
@@ -31,14 +33,12 @@ const checkFeed = async (client) => {
       (latestVideo.id !== lastCheckedVideo.id &&
         new Date(latestVideo.pubDate) > new Date(lastCheckedVideo.pubDate))
     ) {
-      console.log("Condition fulfilled...");
       try {
         let targetGuild =
           client.guilds.cache.get(notificationConfig.guildId) ||
           (await fetchGuild(client, notificationConfig.guildId));
       } catch (error) {
-        if (error.code == 10004)
-          // 10004 = guild non existent
+        if (error.code == GuildNotExisting)
           await removeAllConfigFromGuild(notificationConfig.guildId);
         continue;
       }
@@ -63,11 +63,11 @@ const checkFeed = async (client) => {
           targetGuild.channels.cache.get(guildChannelId) ||
           (await targetGuild.channels.fetch(guildChannelId));
       } catch (error) {
-        if (error.code == 10003)
-          // 10003 = channel non existent
+        if (error.code == ChannelNotExisting) {
           await removeAllConfigFromGuildChannel(
             notificationConfig.guildChannelId
           );
+        }
         continue;
       }
 
@@ -94,10 +94,10 @@ const checkFeed = async (client) => {
 
 // Most normal JS function
 const fetchGuild = async (client, guildId) => {
-  const initialResult = await client.guilds.fetch(guildId);
-  let results = initialResult.map((guild) => guild.fetch());
+  const oauth2Guilds = await client.guilds.fetch(guildId);
+  let guilds = oauth2Guilds.map((guild) => guild.fetch());
 
-  return Promise.all(results);
+  return Promise.all(guilds);
 };
 
 module.exports = { checkFeed };
