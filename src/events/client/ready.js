@@ -4,7 +4,7 @@ module.exports = {
   name: "ready",
   once: true,
   async execute(client) {
-    console.log(`Ready!!! ${client.user.tag} is online!`);
+    console.log(`[READY] ${client.user.tag} is online!`);
 
     checkFeed(client);
 

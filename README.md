@@ -1,3 +1,3 @@
-## fit-discord-bot
+## byteme
 
-Written with discord.js
+Discord bot written with discord.js
