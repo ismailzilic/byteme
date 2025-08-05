@@ -10,6 +10,7 @@ const { EmbedBuilder } = require("discord.js");
 
 const parser = new Parser();
 
+// Discord REST error codes
 const GuildNotExisting = 10004;
 const ChannelNotExisting = 10003;
 
@@ -26,15 +27,15 @@ const checkFeed = async (client) => {
 
     const latestVideo = feed.items[0];
     const lastCheckedVideo = await selectLastCheckedVideo(notificationConfig);
-    console.log(latestVideo, "-", lastCheckedVideo);
 
     if (
       lastCheckedVideo == null ||
       (latestVideo.id !== lastCheckedVideo.id &&
         new Date(latestVideo.pubDate) > new Date(lastCheckedVideo.pubDate))
     ) {
+      let targetGuild;
       try {
-        let targetGuild =
+        targetGuild =
           client.guilds.cache.get(notificationConfig.guildId) ||
           (await fetchGuild(client, notificationConfig.guildId));
       } catch (error) {
@@ -42,6 +43,7 @@ const checkFeed = async (client) => {
           await removeAllConfigFromGuild(notificationConfig.guildId);
         continue;
       }
+
       if (targetGuild instanceof Array && targetGuild.length > 0)
         targetGuild = targetGuild[0];
       else
@@ -58,8 +60,9 @@ const checkFeed = async (client) => {
         );
       }
 
+      let targetChannel;
       try {
-        const targetChannel =
+        targetChannel =
           targetGuild.channels.cache.get(guildChannelId) ||
           (await targetGuild.channels.fetch(guildChannelId));
       } catch (error) {
