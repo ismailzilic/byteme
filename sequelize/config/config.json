@@ -4,7 +4,8 @@
     "password": null,
     "database": "database_development",
     "host": "127.0.0.1",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "storage": "./sequelize/test/youtube-database-dev.sqlite"
   },
   "test": {
     "username": "root",
@@ -12,6 +13,7 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "sqlite",
+    "storage": "./sequelize/test/youtube-database-test.sqlite",
     "logging": false
   },
   "production": {
@@ -20,6 +22,7 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "sqlite",
+    "storage": "./sequelize/youtube-database.sqlite",
     "logging": false
   }
 }

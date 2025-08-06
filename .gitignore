@@ -1,2 +1,4 @@
 .env
 node_modules
+sequelize/test/
+127.0.0.1
