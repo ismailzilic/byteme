@@ -1,7 +1,14 @@
 .env
+
 .git
 .gitignore
+
 .dockerignore
 Dockerfile
+docker-compose.yml
+
 node_modules
 npm-debug.log
+
+*.sqlite
+*.sqlite-journal
