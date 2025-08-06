@@ -1,5 +1,4 @@
 const { Sequelize } = require("sequelize");
-
 const sequelize = require("../instance.js");
 
 const NotificationConfig = sequelize.define("NotificationConfig", {

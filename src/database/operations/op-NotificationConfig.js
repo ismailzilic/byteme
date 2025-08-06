@@ -59,7 +59,7 @@ const updateLastCheckedVideo = async (notificationConfig, latestVideo) => {
 };
 
 const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
-  const data = NotificationConfig.destroy({
+  const data = await NotificationConfig.destroy({
     where: {
       guildChannelId: GuildChannelId,
       ytChannelId: YtChannelId,
@@ -71,7 +71,7 @@ const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
 };
 
 const removeAllConfigFromGuild = async (GuildId) => {
-  const data = NotificationConfig.destroy({
+  const data = await NotificationConfig.destroy({
     where: {
       guildId: GuildId,
     },
@@ -82,7 +82,7 @@ const removeAllConfigFromGuild = async (GuildId) => {
 };
 
 const removeAllConfigFromGuildChannel = async (GuildChannelId) => {
-  const data = NotificationConfig.destroy({
+  const data = await NotificationConfig.destroy({
     where: {
       guildChannelId: GuildChannelId,
     },

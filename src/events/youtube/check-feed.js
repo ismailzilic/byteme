@@ -7,6 +7,9 @@ const {
 } = require("../../database/operations/op-NotificationConfig.js");
 const Parser = require("rss-parser");
 const { EmbedBuilder } = require("discord.js");
+const {
+  selectNotificationRoleByGuild,
+} = require("../../database/operations/op-NotificationRole.js");
 
 const parser = new Parser();
 
@@ -75,6 +78,8 @@ const checkFeed = async (client) => {
       }
 
       await updateLastCheckedVideo(notificationConfig, latestVideo).then(() => {
+        const role = selectNotificationRoleByGuild(notificationConfig.guildId);
+
         const embed = new EmbedBuilder()
           .setColor(client.config.colors.youtube)
           .setAuthor({ name: "YouTube", url: "https://www.youtube.com" })
@@ -82,14 +87,15 @@ const checkFeed = async (client) => {
           .setURL(latestVideo.link)
           .setImage(
             `https://img.youtube.com/vi/${
-              latestVideo.id.slice(":")[2]
+              latestVideo.id.split(":")[2]
             }/maxresdefault.jpg`
           )
           .setDescription(feed.title)
           .setURL(feed.link)
           .setTimestamp();
 
-        targetChannel.send({ embeds: [embed] });
+        if (!role) targetChannel.send({ embeds: [embed] });
+        else targetChannel.send(`<@&${roleId}>`, { embeds: [embed] });
       });
     }
   }
