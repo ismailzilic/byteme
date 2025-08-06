@@ -4,7 +4,11 @@
   "description": "FIT Helper bot",
   "main": "src/bot.js",
   "scripts": {
-    "test": "node ."
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && npm run compile",
+    "start": "node .",
+    "dev": "npm run clean && npm run start",
+    "prod": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "Ismail Zilic",

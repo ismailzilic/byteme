@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_BOT_TOKEN, CLIENT_ID } = process.env;
 const { REST, Routes } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -29,7 +29,7 @@ module.exports = (client) => {
     }
 
     const rest = new REST().setToken(DISCORD_BOT_TOKEN);
-    const clientId = client.config.clientId;
+    const clientId = CLIENT_ID;
 
     try {
       console.log(

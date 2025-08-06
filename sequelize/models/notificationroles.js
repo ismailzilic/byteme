@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class NotificationRoles extends Model {
     /**
@@ -9,16 +7,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
-    }
   }
-  NotificationRoles.init({
-    guildId: DataTypes.INTEGER,
-    roleId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'NotificationRoles',
-  });
+  NotificationRoles.init(
+    {
+      guildId: DataTypes.INTEGER,
+      roleId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "NotificationRoles",
+    }
+  );
   return NotificationRoles;
 };
