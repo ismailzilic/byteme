@@ -1,7 +1,6 @@
 const path = require("node:path");
 const fs = require("node:fs");
-
-const sequelize = require("../../database/instance.js");
+const sequelize = require("../../../sequelize/models/index.js").sequelize;
 
 module.exports = (client) => {
   client.handleEvents = async () => {

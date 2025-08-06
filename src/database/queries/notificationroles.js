@@ -1,14 +1,14 @@
-const NotificationRole = require("../models/NotificationRole.js");
+const db = require("../../../sequelize/models");
 
 const createNotificationRole = async (notificationRole) => {
-  return await NotificationRole.create({
+  return await db.NotificationRoles.create({
     guildId: notificationRole.guildId,
     roleId: notificationRole.roleId,
   });
 };
 
 const selectNotificationRole = async (notificationRole) => {
-  const data = await NotificationRole.findOne({
+  const data = await db.NotificationRoles.findOne({
     where: {
       guildId: notificationRole.guildId,
       roleId: notificationRole.roleId,
@@ -19,7 +19,7 @@ const selectNotificationRole = async (notificationRole) => {
 };
 
 const selectNotificationRoleByGuild = async (guildId) => {
-  const data = await NotificationRole.findOne({
+  const data = await db.NotificationRoles.findOne({
     where: {
       guildId: guildId,
     },
@@ -32,7 +32,7 @@ const selectNotificationRoleByGuild = async (guildId) => {
 };
 
 const updateNotificationRole = async (notificationRole) => {
-  await NotificationRole.update(
+  await db.NotificationRoles.update(
     {
       guildId: notificationRole.guildId,
       roleId: notificationRole.roleId,
@@ -47,7 +47,7 @@ const updateNotificationRole = async (notificationRole) => {
 };
 
 const deleteNotificationRole = async (guildId) => {
-  const data = await NotificationRole.destroy({
+  const data = await db.NotificationRoles.destroy({
     where: {
       guildId: guildId,
     },

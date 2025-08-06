@@ -4,12 +4,12 @@ const {
   removeAllConfigFromGuild,
   removeAllConfigFromGuildChannel,
   updateLastCheckedVideo,
-} = require("../../database/operations/op-NotificationConfig.js");
+} = require("../../database/queries/notificationconfig.js");
 const Parser = require("rss-parser");
 const { EmbedBuilder } = require("discord.js");
 const {
   selectNotificationRoleByGuild,
-} = require("../../database/operations/op-NotificationRole.js");
+} = require("../../database/queries/notificationroles.js");
 
 const parser = new Parser();
 

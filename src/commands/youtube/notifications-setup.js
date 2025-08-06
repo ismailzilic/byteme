@@ -9,7 +9,7 @@ const {
   createNotificationConfig,
   updateLastCheckedVideo,
   alreadyExists,
-} = require("../../database/operations/op-NotificationConfig");
+} = require("../../database/queries/notificationconfig.js");
 const Parser = require("rss-parser");
 
 const parser = new Parser();

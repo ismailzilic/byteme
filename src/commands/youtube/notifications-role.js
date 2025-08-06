@@ -9,7 +9,7 @@ const {
   selectNotificationRole,
   updateNotificationRole,
   deleteNotificationRole,
-} = require("../../database/operations/op-NotificationRole.js");
+} = require("../../database/queries/notificationroles.js");
 
 const command = new SlashCommandBuilder()
   .setName("notifications-role")

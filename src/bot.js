@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { token } = process.env;
+const { DISCORD_BOT_TOKEN } = process.env;
 
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const path = require("node:path");
@@ -23,6 +23,6 @@ for (const folder of functionFolders) {
     require(path.join(__dirname, "functions", `${folder}`, `${file}`))(client);
 }
 
-client.login(token);
+client.login(DISCORD_BOT_TOKEN);
 client.handleCommands();
 client.handleEvents();

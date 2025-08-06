@@ -5,7 +5,10 @@ const {
   EmbedBuilder,
   ChannelType,
 } = require("discord.js");
-const NotificationConfig = require("../../database/operations/op-NotificationConfig.js");
+const {
+  selectAllNotificationConfigs,
+  selectNotificationConfigsByGuildChannel,
+} = require("../../database/queries/notificationconfig.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -30,13 +33,10 @@ module.exports = {
     let allNotificationConfigs;
 
     if (guildChannel)
-      allNotificationConfigs =
-        await NotificationConfig.selectNotificationConfigsByGuildChannel(
-          guildChannel
-        );
-    else
-      allNotificationConfigs =
-        await NotificationConfig.selectAllNotificationConfigs();
+      allNotificationConfigs = await selectNotificationConfigsByGuildChannel(
+        guildChannel
+      );
+    else allNotificationConfigs = await selectAllNotificationConfigs();
 
     const embed = new EmbedBuilder()
       .setColor(client.config.colors.primary)

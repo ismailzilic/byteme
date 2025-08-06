@@ -1,7 +1,7 @@
-const NotificationConfig = require("../models/NotificationConfig.js");
+const db = require("../../../sequelize/models");
 
 const createNotificationConfig = async (notificationConfig) => {
-  return await NotificationConfig.create({
+  return await db.NotificationConfig.create({
     guildId: notificationConfig.guildId,
     guildChannelId: notificationConfig.guildChannelId,
     ytChannelId: notificationConfig.ytChannelId,
@@ -13,11 +13,11 @@ const createNotificationConfig = async (notificationConfig) => {
 };
 
 const selectAllNotificationConfigs = async () => {
-  return await NotificationConfig.findAll();
+  return await db.NotificationConfig.findAll();
 };
 
 const selectNotificationConfigsByGuildChannel = async (guildChannel) => {
-  return await NotificationConfig.findAll({
+  return await db.NotificationConfig.findAll({
     where: {
       guildChannelId: guildChannel,
     },
@@ -25,7 +25,7 @@ const selectNotificationConfigsByGuildChannel = async (guildChannel) => {
 };
 
 const selectLastCheckedVideo = async (notificationConfig) => {
-  const data = await NotificationConfig.findAll({
+  const data = await db.NotificationConfig.findAll({
     attributes: ["lastCheckedVideoId", "lastCheckedVideoPubDate"],
     where: {
       guildChannelId: notificationConfig.guildChannelId,
@@ -44,7 +44,7 @@ const selectLastCheckedVideo = async (notificationConfig) => {
 };
 
 const updateLastCheckedVideo = async (notificationConfig, latestVideo) => {
-  await NotificationConfig.update(
+  await db.NotificationConfig.update(
     {
       lastCheckedVideoId: latestVideo.id,
       lastCheckedVideoPubDate: new Date(latestVideo.pubDate),
@@ -59,49 +59,45 @@ const updateLastCheckedVideo = async (notificationConfig, latestVideo) => {
 };
 
 const removeNotificationConfig = async (GuildChannelId, YtChannelId) => {
-  const data = await NotificationConfig.destroy({
+  const data = await db.NotificationConfig.destroy({
     where: {
       guildChannelId: GuildChannelId,
       ytChannelId: YtChannelId,
     },
   });
 
-  if (data == null) return false;
-  return true;
+  return !data ? false : true;
 };
 
 const removeAllConfigFromGuild = async (GuildId) => {
-  const data = await NotificationConfig.destroy({
+  const data = await db.NotificationConfig.destroy({
     where: {
       guildId: GuildId,
     },
   });
 
-  if (data == null) return false;
-  return true;
+  return !data ? false : true;
 };
 
 const removeAllConfigFromGuildChannel = async (GuildChannelId) => {
-  const data = await NotificationConfig.destroy({
+  const data = await db.NotificationConfig.destroy({
     where: {
       guildChannelId: GuildChannelId,
     },
   });
 
-  if (data == null) return false;
-  return true;
+  return !data ? false : true;
 };
 
 const alreadyExists = async (GuildChannelId, YtChannelId) => {
-  const data = await NotificationConfig.findOne({
+  const data = await db.NotificationConfig.findOne({
     where: {
       guildChannelId: GuildChannelId,
       ytChannelId: YtChannelId,
     },
   });
 
-  if (data == null) return false;
-  return true;
+  return !data ? false : true;
 };
 
 module.exports = {

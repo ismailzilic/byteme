@@ -8,7 +8,7 @@ const {
 const {
   removeNotificationConfig,
   alreadyExists,
-} = require("../../database/operations/op-NotificationConfig");
+} = require("../../database/queries/notificationconfig.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
