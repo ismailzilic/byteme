@@ -13,7 +13,7 @@ ByteMe is a Discord bot built using [Discord.js](https://discord.js.org/). This 
 - [Node.js](https://nodejs.org/en/download) LTS (20+ version)
 - [Docker Desktop](https://www.docker.com/) or [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Running without Docker:
+## 🚀 Running without Docker:
 
 ### 1. Clone the repository
 
@@ -78,7 +78,7 @@ You can leave the database (SQLITE) variables embpty if you wish to go with the 
 npm run build
 ```
 
-## Running with Docker
+## 🐳 Running with Docker
 
 ### 1. Clone the repository
 
