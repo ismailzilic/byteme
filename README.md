@@ -43,7 +43,7 @@ SQLITE_PASS=
 SQLITE_NAME=
 ```
 
-How to get a _token_ and your _Client ID_ will be explained in the next step.
+More on how to get your `DISCORD_BOT_TOKEN` and `CLIENT_ID` in the next step.
 You can leave the database (SQLITE) variables embpty if you wish to go with the default settings.
 
 ### 4. Configure your Discord bot
