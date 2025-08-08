@@ -1,13 +1,10 @@
 .env
+.env.docker
 
 .git
 .gitignore
 
-.dockerignore
-Dockerfile
-docker-compose.yml
-
-node_modules
+node_modules/
 npm-debug.log
 
 *.sqlite

@@ -1,2 +1,5 @@
 .env
-node_modules
+.env.docker
+
+node_modules/
+npm-debug.log
