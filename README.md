@@ -8,7 +8,7 @@ ByteMe is a Discord bot built using [Discord.js](https://discord.js.org/). This 
 - YouTube notifications
 - Utility commands
 
-## Prerequisites
+## 📋 Prerequisites
 
 - [Node.js](https://nodejs.org/en/download) LTS (20+ version)
 - [Docker Desktop](https://www.docker.com/) or [Docker Compose](https://docs.docker.com/compose/install/)
@@ -48,28 +48,28 @@ You can leave the database (SQLITE) variables embpty if you wish to go with the 
 
 ### 4. Configure your Discord bot
 
-- **Go to the [Discord Developer Portal](https://discord.com/developers/applications)**
+- **Go to the [Discord Developer Portal](https://discord.com/developers/applications)**  
   Click "New Application", give it a name, and create it.
 
-- **Copy the Bot Token**
+- **Copy the Bot Token**  
   Under the "Bot" section click "Reset Token" and assign it to DISCORD_BOT_TOKEN environment variable in the `.env` file.
 
   > ⚠️ Do not share your token!!!
 
-- **Enable Privileged Gateway Intents**
+- **Enable Privileged Gateway Intents**  
   Still under the "Bot" section, enable Presence Intent.
 
-- **Copy the Client ID**
+- **Copy the Client ID**  
   "General Information" section > "Application ID", copy it and assign it to CLIENT_ID environment variable in the `.env` file.
 
-- **Set up permissions**
+- **Set up permissions**  
   Under the "Installation" section, uncheck "User install".
 
   In the install settings add the "bot" scope and select these permissions:
   "Send messages", "Embed Links", "Mention Everyone", "Read Message History", "Send Messages in Threads", "View Channels"
   Or alternatively, you can just assign it an "Administrator" permission.
 
-- **Invite the Bot to Your Server**
+- **Invite the Bot to Your Server**  
   Use the provided "Install Link" in the "Installation" section.
 
 ### 5. Run the bot
