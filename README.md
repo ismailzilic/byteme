@@ -2,22 +2,16 @@
 
 ByteMe is a Discord bot built using [Discord.js](https://discord.js.org/). This is an app I built for fun and for learning.
 
----
-
 ## 🛠️ Features:
 
 - Slash command support
 - YouTube notifications
 - Utility commands
 
----
-
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/download) LTS (20+ version)
 - [Docker Desktop](https://www.docker.com/) or [Docker Compose](https://docs.docker.com/compose/install/)
-
---
 
 ## Running without Docker:
 
@@ -80,11 +74,13 @@ You can leave the database (SQLITE) variables embpty if you wish to go with the 
 
 ### 5. Run the bot
 
-`npm run build`
+```
+npm run build
+```
 
 ## Running with Docker
 
-## 1. Clone the repository
+### 1. Clone the repository
 
 ```
 git clone https://github.com/ismailzilic/byteme.git
@@ -108,4 +104,6 @@ SQLITE_NAME=
 
 ### 3. Run a Docker container
 
-`docker compose --env-file .env up`
+```
+docker compose --env-file .env up
+```
