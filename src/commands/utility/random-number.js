@@ -15,7 +15,7 @@ const command = new SlashCommandBuilder()
       .setDescription("(Optional) Sets the maximum value. Default is 100")
   );
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   await interaction.deferReply({
     content: `Calculating...`,
   });

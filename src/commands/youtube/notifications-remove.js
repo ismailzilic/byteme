@@ -31,7 +31,7 @@ const command = new SlashCommandBuilder()
       .setRequired(true)
   );
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   try {
     await interaction.deferReply({ content: "Deleting the entry..." });
 
@@ -47,7 +47,7 @@ const execute = async (interaction, client) => {
 
     if (await removeNotificationConfig(guildChannelId, ytChannelId)) {
       const embed = new EmbedBuilder()
-        .setColor(client.config.colors.primary)
+        .setColor(interaction.client.config.colors.primary)
         .setTitle("YouTube channel removed successfully.")
         .addFields({
           name: "",

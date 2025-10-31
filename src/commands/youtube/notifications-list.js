@@ -25,7 +25,7 @@ const command = new SlashCommandBuilder()
       .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
   );
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   await interaction.deferReply({ content: "Fetching list..." });
 
   const guildChannel = interaction.options.getChannel("channel");
@@ -39,7 +39,7 @@ const execute = async (interaction, client) => {
   else allNotificationConfigs = await selectAllNotificationConfigs();
 
   const embed = new EmbedBuilder()
-    .setColor(client.config.colors.primary)
+    .setColor(interaction.client.config.colors.primary)
     .setTitle("List of all saved channels.")
     .addFields(
       {

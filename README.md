@@ -54,7 +54,7 @@ You can leave the database (SQLITE) variables embpty if you wish to go with the 
 - **Copy the Bot Token**  
   Under the "Bot" section click "Reset Token" and assign it to DISCORD_BOT_TOKEN environment variable in the `.env` file.
 
-  > ⚠️ Do not share your token!!!
+  **⚠️ Token should be kept private at all times.**
 
 - **Enable Privileged Gateway Intents**  
   Still under the "Bot" section, enable Presence Intent.

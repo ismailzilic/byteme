@@ -34,7 +34,7 @@ const command = new SlashCommandBuilder()
       .setRequired(true)
   );
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   await interaction.deferReply();
 
   const guildChannelId = interaction.options.getChannel("channel");
@@ -71,7 +71,7 @@ const execute = async (interaction, client) => {
     await updateLastCheckedVideo({ ytChannelId, guildChannelId }, latestVideo)
       .then(() => {
         const embed = new EmbedBuilder()
-          .setColor(client.config.colors.primary)
+          .setColor(interaction.client.config.colors.primary)
           .setTitle("YouTube channel configured successfully.")
           .setDescription(
             `${guildChannelId} will get notified whenever there's a new upload by **${ytChannelTitle}**`

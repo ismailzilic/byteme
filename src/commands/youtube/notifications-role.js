@@ -27,7 +27,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   await interaction.deferReply();
 
   const guildId = interaction.guild.id;
@@ -38,7 +38,7 @@ const execute = async (interaction, client) => {
   } catch (error) {
     if (await deleteNotificationRole(guildId)) {
       const embed = new EmbedBuilder()
-        .setColor(client.config.colors.primary)
+        .setColor(interaction.client.config.colors.primary)
         .setTitle("Notification role removed successfully.")
         .setDescription(
           `You removed a notification role for your server. If you want to set it up again use this command with a role specified.`
@@ -53,7 +53,7 @@ const execute = async (interaction, client) => {
     await updateNotificationRole({ guildId, roleId });
 
     const embed = new EmbedBuilder()
-      .setColor(client.config.colors.primary)
+      .setColor(interaction.client.config.colors.primary)
       .setTitle("Notification role set up successfully.")
       .setDescription(
         `<@&${roleId}> set up as a new notification role.\n(Overwritten the last set up role.)`
@@ -65,7 +65,7 @@ const execute = async (interaction, client) => {
 
   if (await createNotificationRole({ guildId, roleId })) {
     const embed = new EmbedBuilder()
-      .setColor(client.config.colors.primary)
+      .setColor(interaction.client.config.colors.primary)
       .setTitle("Notification role set up successfully.")
       .setDescription(`<@&${roleId}> set up as a new notification role.`)
       .setTimestamp();
@@ -74,7 +74,7 @@ const execute = async (interaction, client) => {
   }
 
   const embed = new EmbedBuilder()
-    .setColor(client.config.colors.primary)
+    .setColor(interaction.client.config.colors.primary)
     .setTitle("Notification role set up failed.")
     .setDescription(`Something went wrong while configuring the role.`)
     .setTimestamp();

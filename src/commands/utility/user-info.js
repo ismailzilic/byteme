@@ -5,9 +5,9 @@ const command = new SlashCommandBuilder()
   .setName("user-info")
   .setDescription("Responds with informations about you.");
 
-const execute = async (interaction, client) => {
+const execute = async (interaction) => {
   const embed = new EmbedBuilder()
-    .setColor(client.config.colors.primary)
+    .setColor(interaction.client.config.colors.primary)
     .setTitle("User Info")
     .setThumbnail(interaction.user.displayAvatarURL())
     .addFields(
